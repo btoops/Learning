@@ -78,7 +78,7 @@ abstract public class MultiLayerFeedForwardNeuralNetwork extends FeedForwardNeur
 				NeuronUnit unit = units[i];
 				System.out.format("%d\t%d", l, i);
 				for (Connection conn : unit.incomingConnections) {
-					System.out.format("\t%.2f", conn.weight);
+					System.out.format("\t%.4f", conn.weight);
 				}
 				System.out.println();
 			}
@@ -180,8 +180,8 @@ abstract public class MultiLayerFeedForwardNeuralNetwork extends FeedForwardNeur
 	 * (4) ``Update every weight in network using deltas''
 	 */
 	public void backprop(Example example, double alpha) {
-		System.out.println("Backprop start---------------------------------");
-		dump();
+		//System.out.println("Backprop start---------------------------------");
+		//dump();
 		// This must be implemented by you
 		NeuronUnit[] outputs = this.getOutputUnits();
 		InputUnit[] inputs = this.getInputUnits();
@@ -202,7 +202,7 @@ abstract public class MultiLayerFeedForwardNeuralNetwork extends FeedForwardNeur
 		//I believe this calculates the correct delta for the output nodes
 		for(int j = 0; j < outputs.length; j++) {
 			outputs[j].delta = temp.activationPrime(outputs[j].getInputSum()) * (example.outputs[j]- temp.activation(outputs[j].getOutput()));
-			System.out.println("outputs[" + j + "].delta: " + outputs[j].delta);
+			//System.out.println("outputs[" + j + "].delta: " + outputs[j].delta);
 		}
 		
 		//calculate delta[i]
@@ -217,14 +217,14 @@ abstract public class MultiLayerFeedForwardNeuralNetwork extends FeedForwardNeur
 			for(int i = 0; i < currentLayer.length; i++) {
 
 				for(int j = 0; j < nextLayer.length; j++) {
+					//System.out.println("weight at layer " + l + " : " + nextLayer[j].getWeight(i) + " * delta: " + nextLayer[j].delta);
 					currentLayer[i].delta += nextLayer[j].getWeight(i) * nextLayer[j].delta;
 				//System.out.println("w_" +l+"_"+ i +"_"+j+"_: " + nextLayer[j].getWeight(i));
 //					System.out.println("test:" + temp.activationPrime(currentLayer[i].getInputSum(nextLayer[j].delta)));
 				}
+				//System.out.println("g': " + temp.activationPrime(currentLayer[i].getInputSum()));
 				currentLayer[i].delta *= temp.activationPrime(currentLayer[i].getInputSum()); // I think error is here
-				System.out.println("currentLayer[" + l + "].[" + i + "].delta: " + currentLayer[i].delta);
-				
-
+				//System.out.println("currentLayer[" + l + "].[" + i + "].delta: " + currentLayer[i].delta);
 			}
 		}
 

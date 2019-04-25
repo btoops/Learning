@@ -52,15 +52,7 @@ abstract public class NeuronUnit extends Unit {
 		}
 		return sum;
 	}
-	
-	//Brandon Toops wrote this method
-	public double getInputSum(double deltaj) {
-		double sum = 0;
-		for (Connection conn : this.incomingConnections) {
-			sum += conn.weight * conn.src.getOutput() * deltaj;
-		}
-		return sum;
-	}
+
 	
 	/**
 	 * Return h_w(x) = Threshold(w \cdot [1,x])
